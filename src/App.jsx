@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import io from "socket.io-client"
 import Chat from './Chat'
-const socket = io.connect("https://chat-server-fosx.onrender.com")
+const socket = io.connect("https://chat-server-iqu1.onrender.com")
 function App() {
   const [username,setUsername]=useState("")
   const [roomId,setRoomId]=useState("")
