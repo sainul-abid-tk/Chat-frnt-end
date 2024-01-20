@@ -65,3 +65,7 @@
 .message-container::-webkit-scrollbar{
   display: none;
 }
+.picker{
+  position: fixed;
+  z-index: 1;
+}
