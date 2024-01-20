@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import io from "socket.io-client"
 import Chat from './Chat'
-const socket = io.connect("https://chat-server-iqu1.onrender.com")
+const socket = io("https://chat-server-kapj.onrender.com")
 function App() {
   const [username,setUsername]=useState("")
   const [roomId,setRoomId]=useState("")
@@ -10,6 +10,7 @@ function App() {
   const joinRoom=()=>{
     if(username!=="" && roomId!==""){
       socket.emit("join_room",(roomId))
+      socket.emit("join_user",(username))
       setShowChat(!showChat)
     }
   }

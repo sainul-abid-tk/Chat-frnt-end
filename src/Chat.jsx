@@ -4,6 +4,8 @@ import wtspSent from '../src/assets/images/watsp-sent.png'
 function Chat({socket,username,roomId}) {
     const [currentMessage,setCurrentMessage]=useState("")
     const [messageList,setMessageList]=useState([])
+    const [allusers,setAllUsers]=useState([])
+    const [newUser,setnewUser]=useState("")
     const sentMessage=async()=>{
         if(currentMessage!==""){
             let today =new Date()
@@ -20,9 +22,12 @@ function Chat({socket,username,roomId}) {
         }
     }
 
-    useEffect(()=>{
+     useEffect(()=>{
         socket.on("receive_message",(data)=>{
             setMessageList((list)=>[...list,data]);
+         })
+         socket.on("recive_user",(data)=>{
+            setAllUsers((list)=>[...list,data])
          })
     },[socket])
   return (
@@ -30,13 +35,18 @@ function Chat({socket,username,roomId}) {
    <div style={{width:'358px'}} className='border border-2 shadow rounded-2  mb-5'>
    <div className='header d-flex  align-items-center bg-primary  text-white rounded-top-2  px-2'>
    <i  class="fa-solid fa-circle text-danger fa-beat"></i>&nbsp;&nbsp;
-    <h5 className='mt-2'>Live Chat</h5>
+    <h5 className='mt-2'>Live Chat </h5>
    </div>
    <div className='ChatBody px-1 py-1'  style={{height:'500px'}} >
    <ScrolltoBottom className='message-container'>
+   {allusers?.map((user)=>(
+    <h6 className='text-center'>{`${user} is joined`}</h6>
+   ))
+    }
     {
         messageList.map((messageContent,index)=>(
-            <div id={username===messageContent.author?'you':'other'}>
+            <>
+            <div key={index} id={username===messageContent.author?'you':'other'}>
                 <div className='message'>
             <div className='message-content'>
                 <p id={username!==messageContent.author?'message-author':'none'}>{messageContent.author}</p>
@@ -47,7 +57,7 @@ function Chat({socket,username,roomId}) {
             </div>
             </div>
             </div>
-            
+            </>
         ))
     }
     </ScrolltoBottom>

@@ -6,7 +6,9 @@
   display: flex;
   justify-content: end;
 }
-
+#other .message-meta{
+  margin-top: -8px;
+}
 #other{
   display: flex;
   justify-content: start;
@@ -37,14 +39,14 @@
 .message-meta{
   text-align: end;
   padding-right: 5px;
-  margin-top: -10px;
-  font-size: 14px;
-}
-#messaage-author .message-meta{
   margin-top: -20px;
+  font-size: 12px;
 }
-#messaage-author .message-text{
-  margin-top: -20px;
+#other .message-meta{
+  margin-top: -22px;
+}
+#other .message-text{
+  margin-top: -25px;
 }
 #message-author{
   padding-left: 5px;
