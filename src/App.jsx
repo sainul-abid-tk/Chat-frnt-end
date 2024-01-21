@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import io from "socket.io-client"
 import Chat from './Chat'
@@ -7,7 +7,7 @@ function App() {
   const [username,setUsername]=useState("")
   const [roomId,setRoomId]=useState("")
   const [showChat,setShowChat]=useState(false)
-  const joinRoom=()=>{
+  const joinRoom=(e)=>{
     if(username!=="" && roomId!==""){
       socket.emit("join_room",(roomId))
       socket.emit("join_user",(username))
@@ -21,9 +21,9 @@ function App() {
           <h1 className='mb-4'>Join Chat</h1>
         <input type="text" placeholder='Username' onChange={e=>setUsername(e.target.value)} className='form-control mb-4 ' />
         <input type="text" placeholder='Room ID' onChange={e=>setRoomId(e.target.value)} className='form-control' />
-        <button  onClick={joinRoom} className='btn btn-success mt-4 w-75 '>Join Room</button>
+        <button  onClick={e=>joinRoom(e)} className='btn btn-success mt-4 w-75 '>Join Room</button>
         </div>:
-        <Chat socket={socket} username={username} roomId={roomId}/>}
+        <Chat  socket={socket} username={username} roomId={roomId}/>}
       </div>
     </>
   )

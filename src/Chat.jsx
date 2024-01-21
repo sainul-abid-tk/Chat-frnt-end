@@ -7,6 +7,7 @@ function Chat({socket,username,roomId}) {
     const [currentMessage,setCurrentMessage]=useState("")
     const [messageList,setMessageList]=useState([])
     const [allusers,setAllUsers]=useState([])
+    const [leftUser,setLeftUser]=useState([])
     const [emojiShow,setEmojiShow]=useState(false)
     const menuRef=useRef()
     let sentMessage=async()=>{
@@ -25,26 +26,29 @@ function Chat({socket,username,roomId}) {
             setEmojiShow(false)
         }
     }
-
      useEffect(()=>{
         socket.on("receive_message",(data)=>{
             setMessageList((list)=>[...list,data]);
          })
          socket.on("recive_user",(data)=>{
+             alert(`${data} is joined !!!`)
              setAllUsers((list)=>[...list,data])
          })
-
+         socket.on("left_user",(data)=>{
+            alert(`${data} is Left !!!`)
+            setLeftUser((list)=>[...list,data])
+         })
          const handler=(e)=>{
             if(!menuRef.current.contains(e.target)){
                 setEmojiShow(false)
             }
          }
-
          document.addEventListener("mousedown",handler)
          return()=>{
             document.removeEventListener("mousedown",handler)
-         }
+          }
     },[socket])
+    console.log(leftUser);
   return (
    <>
    <div  className='picker' ref={menuRef}>
@@ -62,6 +66,7 @@ function Chat({socket,username,roomId}) {
    <div className='ChatBody px-1 py-1'  style={{height:'500px'}} >
    <ScrolltoBottom className='message-container'>
    {allusers?.map((user)=>(
+    !leftUser.includes(user)&&
      <h6 className='text-center'>{`${user} is joined`}</h6>
    )
    )
